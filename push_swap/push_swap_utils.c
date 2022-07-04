@@ -1,44 +1,32 @@
 #include "push_swap.h"
 
-char	*ft_strdup_push_forward(int *array, t_push_swap *ps)
+void	*ft_strdup_push_forward(t_push_swap *ps)
 {
-	int		i;
-	char	*temp;
+	int	i;
 
 	i = 0;
-	temp = malloc(sizeof(char) * (ps->total));
-	if (temp == NULL)
-		return (NULL);
-	while (array[i + 1] != ps->array_total)
+	while(i != ps->array_total - 1)
 	{
-		temp[i] = array[i + 1];
+		ps->stack[i] = ps->stack[i + 1];
 		i++;
 	}
-	return (temp);
+	return (0);
 }
 
-char	*ft_strdup_push_backward(int *array, t_push_swap *ps, int flag)
+void	*ft_strdup_push_backward(t_push_swap *ps)
 {
-	int		i;
-	int		flag_total;
-	char	*temp;
+	int	i;
 
-	i = 0;
-	flag_total = ps->array_total;
-	temp = malloc(sizeof(char) * (ps->total));
-	if (temp == NULL)
-		return (NULL);
-	if (flag == 1)
-		flag_total -=1;
-	while (array[i] != flag_total)
+	i = ps->array_total-1;
+	while(i != 0)
 	{
-		temp[i + 1] = array[i];
-		i++;
+		ps->stack[i] = ps->stack[i - 1];
+		i--;
 	}
-	return (temp);
+	return (0);
 }
 
-int	**parsing_integers(int argc, char **argv)
+char	**parsing_integers(char **argv)
 {
 	int	i;
 	int j;
@@ -46,11 +34,11 @@ int	**parsing_integers(int argc, char **argv)
 	char **before;
 	char **temp;
 
-	i = 0;
+	i = 1;
 	j = 0;
 	k = 0;
 	temp = NULL;
-	before = malloc(sizeof(char *) * (get_total_argc(argc, argv) + 1));
+	before = malloc(sizeof(char *) * (get_total_argc(argv) + 1));
 	while(argv[i] != NULL)
 	{
 		if (ft_strchr(argv[i], " "))
@@ -64,7 +52,7 @@ int	**parsing_integers(int argc, char **argv)
 			before[j++] = ft_strdup(argv[i]);
 		i++;
 	}
-	before[j] = '\0';
+	before[j] = NULL;
 	return (before);
 }
 
@@ -74,14 +62,14 @@ int free_my_temp(char **temp)
 	return (0);
 }
 
-int get_total_argc(int argc, char **argv)
+int get_total_argc(char **argv)
 {
 	int total;
 	int i;
 	int	j;
 	char **temp;
 
-	i = 0;
+	i = 1;
 	j = 0;
 	total = 0;
 	temp = NULL;
